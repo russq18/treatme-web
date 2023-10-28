@@ -1,7 +1,6 @@
 #Stage 1
 FROM node:17-alpine3.15 as builder
 WORKDIR /app
-ENV PORT=4567
 COPY package.json .
 COPY package-lock.json .
 RUN npm install
