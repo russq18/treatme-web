@@ -5,7 +5,7 @@
 # EXPOSE 3000
 
 # CMD ["npm", "start"]
-FROM node:lts-alpine as build
+FROM node:18 as build
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 RUN npm ci
