@@ -1,12 +1,20 @@
-# FROM node:lts-alpine
-# WORKDIR /usr/src/app
-# COPY package*.json ./
-# RUN npm install
-# EXPOSE 3000
+FROM node:18-alpine as builder
+# set working directory
+WORKDIR /app
 
-# CMD ["npm", "start"]
-FROM node:18 as build
-WORKDIR /usr/src/app
-COPY . /usr/src/app
-RUN npm ci
-RUN npm run build
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+ENV PORT 8081
+EXPOSE 8081
+
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
+
+# add app
+COPY . ./
+
+# start app
+CMD ["npm", "start"]
